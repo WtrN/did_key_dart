@@ -4,5 +4,5 @@
 library;
 
 export 'src/did_key_dart_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/model/ec_public_key_extension.dart';
+export 'src/model/key_algorithm.dart';

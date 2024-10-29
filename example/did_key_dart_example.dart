@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:did_key_dart/did_key_dart.dart';
-import 'package:did_key_dart/src/model/key_algorithm.dart';
 import 'package:jose/jose.dart';
 
 void main() {

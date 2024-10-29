@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 
+/// A class to encode and decode varint.
 class Varint {
+
+  /// Encodes the target integer to varint.
   Uint8List encode(int target) {
     var value = target;
     final bytes = <int>[];
@@ -12,6 +15,7 @@ class Varint {
     return Uint8List.fromList(bytes);
   }
 
+  /// Decodes the target bytes to integer.
   int decode(Uint8List bytes, int start, [int? end]) {
     var value = 0;
     var shift = 0;
@@ -28,6 +32,7 @@ class Varint {
     throw const FormatException('Varint decoding failed');
   }
 
+  /// Returns the length of the varint prefix.
   int getPrefixLength(Uint8List bytes, int start) {
     var prefixLength = 0;
     var tempCode = decode(bytes, start);

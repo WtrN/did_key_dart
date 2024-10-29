@@ -8,10 +8,12 @@ import 'model/key_algorithm.dart';
 import 'utils/base58.dart';
 import 'utils/variant.dart';
 
-/// Checks if you are awesome. Spoiler: you are.
+/// A class that generates a DID from a JWK or generates a DID and a key pair.
 class DIDGenerator {
+  /// Creates a new instance of [DIDGenerator].
   const DIDGenerator();
 
+  /// Generates a DID from a JWK.
   String generateDIDFromJWK({
     required KeyAlgorithm keyAlgorithm,
     required String jwk,
@@ -27,13 +29,16 @@ class DIDGenerator {
     final publicKeyHex = ecPoint.getEncoded();
 
     final base58PublicKey = base58Encode(
-        Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex));
+      Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex),
+    );
 
     return 'did:key:$base58PublicKey';
   }
 
-  (String did, ECPrivateKey privateKey) generateDID(
-      {required KeyAlgorithm keyAlgorithm}) {
+  /// Generates a DID and a key pair.
+  (String did, ECPrivateKey privateKey) generateDID({
+    required KeyAlgorithm keyAlgorithm,
+  }) {
     final generator = ECKeyGenerator()
       ..init(
         ParametersWithRandom(
@@ -53,11 +58,13 @@ class DIDGenerator {
     final publicKeyHex = ecPoint.getEncoded();
 
     final base58PublicKey = base58Encode(
-        Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex));
+      Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex),
+    );
 
     return ('did:key:$base58PublicKey', keyPair.privateKey as ECPrivateKey);
   }
 
+  /// Resolves a DID to an [ECPublicKey].
   ECPublicKey resolveDID(String did) {
     // Extract the base58-encoded public key from the DID
     final base58PublicKey = did.substring('did:key:z'.length);

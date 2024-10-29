@@ -4,13 +4,17 @@ import 'package:pointycastle/export.dart';
 
 import '../utils/variant.dart';
 
+/// A class that represents a key algorithm.
 sealed class KeyAlgorithm {
+  /// The name of the key algorithm.
   String get name => throw UnimplementedError();
 
+  /// The domain parameters of the key algorithm.
   ECDomainParametersImpl get domainParameters => throw UnimplementedError();
 
   int get _hexadecimalValue => throw UnimplementedError();
 
+  /// The hexadecimal value of the key algorithm.
   Uint8List get hexadecimal => _encodeVarInt(_hexadecimalValue);
 
   Uint8List _encodeVarInt(int value) {
@@ -18,6 +22,7 @@ sealed class KeyAlgorithm {
     return varint.encode(value);
   }
 
+  /// Returns the key algorithm from the key bytes.
   static KeyAlgorithm getKeyAlgorithm(Uint8List keyBytes) {
     final varint = Varint();
     final multicodecCode = varint.decode(keyBytes, 0);
@@ -40,6 +45,7 @@ sealed class KeyAlgorithm {
     }
   }
 
+  /// Returns the key algorithm from the key identifier.
   Identifier get identifier => switch (this) {
         P256() => curves.p256,
         P384() => curves.p384,
@@ -48,6 +54,7 @@ sealed class KeyAlgorithm {
       };
 }
 
+/// A class that represents the P-256 key algorithm.
 class P256 extends KeyAlgorithm {
   @override
   String get name => 'P-256';
@@ -59,6 +66,7 @@ class P256 extends KeyAlgorithm {
   int get _hexadecimalValue => 0x1200;
 }
 
+/// A class that represents the P-384 key algorithm.
 class P384 extends KeyAlgorithm {
   @override
   String get name => 'P-384';
@@ -70,6 +78,7 @@ class P384 extends KeyAlgorithm {
   int get _hexadecimalValue => 0x1201;
 }
 
+/// A class that represents the P-521 key algorithm.
 class P521 extends KeyAlgorithm {
   @override
   String get name => 'P-521';
@@ -81,6 +90,7 @@ class P521 extends KeyAlgorithm {
   int get _hexadecimalValue => 0x1202;
 }
 
+/// A class that represents the Ed25519 key algorithm.
 class Ed25519 extends KeyAlgorithm {
   @override
   String get name => 'Ed25519';
