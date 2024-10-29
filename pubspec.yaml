@@ -1,4 +1,4 @@
-name: dart_ssi
+name: did_key_dart
 description: Create did:key.
 version: 1.0.0
 repository: https://github.com/my_org/my_repo
@@ -8,10 +8,10 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  crypto_keys: ^0.3.0
-  pointycastle: ^3.9.1
-  jose: ^0.3.4
   base_x: ^2.0.1
+  crypto_keys: ^0.3.0
+  jose: ^0.3.4
+  pointycastle: ^3.9.1
   quiver: ^3.2.2
 
 dev_dependencies:
