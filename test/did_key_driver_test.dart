@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('A group of tests', () {
-    const awesome = DIDGenerator();
+    const awesome = DIDKeyDriver();
 
     setUp(() {
       // Additional setup goes here.
@@ -20,7 +20,7 @@ void main() {
         jwk: jsonEncode(jwk.toJson()),
       );
 
-      final ecPublicKey = awesome.resolveDID(did);
+      final ecPublicKey = awesome.getPublicKeyFromDID(did);
       expect(
         ecPublicKey.Q?.x?.toBigInteger(),
         (jwk.cryptoKeyPair.publicKey! as EcPublicKey).xCoordinate,

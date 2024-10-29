@@ -9,9 +9,9 @@ import 'utils/base58.dart';
 import 'utils/variant.dart';
 
 /// A class that generates a DID from a JWK or generates a DID and a key pair.
-class DIDGenerator {
-  /// Creates a new instance of [DIDGenerator].
-  const DIDGenerator();
+class DIDKeyDriver {
+  /// Creates a new instance of [DIDKeyDriver].
+  const DIDKeyDriver();
 
   /// Generates a DID from a JWK.
   String generateDIDFromJWK({
@@ -65,7 +65,7 @@ class DIDGenerator {
   }
 
   /// Resolves a DID to an [ECPublicKey].
-  ECPublicKey resolveDID(String did) {
+  ECPublicKey getPublicKeyFromDID(String did) {
     // Extract the base58-encoded public key from the DID
     final base58PublicKey = did.substring('did:key:z'.length);
 
