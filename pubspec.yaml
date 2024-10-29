@@ -1,12 +1,11 @@
 name: did_key_dart
 description: Create did:key.
-version: 1.0.0
+version: 0.1.0
 repository: https://github.com/my_org/my_repo
 
 environment:
   sdk: ^3.5.3
 
-# Add regular dependencies here.
 dependencies:
   base_x: ^2.0.1
   crypto_keys: ^0.3.0

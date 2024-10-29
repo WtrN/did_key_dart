@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:crypto_keys/crypto_keys.dart' as crypto_keys;
 import 'package:pointycastle/export.dart';
+import 'package:quiver/iterables.dart';
 
 import 'model/key_algorithm.dart';
 import 'utils/base58.dart';
@@ -36,7 +38,7 @@ class DIDKeyDriver {
   }
 
   /// Generates a DID and a key pair.
-  (String did, ECPrivateKey privateKey) generateDID({
+  ({String did, ECPrivateKey privateKey}) generateDID({
     required KeyAlgorithm keyAlgorithm,
   }) {
     final generator = ECKeyGenerator()
@@ -45,7 +47,7 @@ class DIDKeyDriver {
           ECKeyGeneratorParameters(
             keyAlgorithm.domainParameters,
           ),
-          SecureRandom(),
+          _initializeSecureRandom(),
         ),
       );
 
@@ -61,7 +63,10 @@ class DIDKeyDriver {
       Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex),
     );
 
-    return ('did:key:$base58PublicKey', keyPair.privateKey as ECPrivateKey);
+    return (
+      did: 'did:key:$base58PublicKey',
+      privateKey: keyPair.privateKey as ECPrivateKey
+    );
   }
 
   /// Resolves a DID to an [ECPublicKey].
@@ -91,5 +96,15 @@ class DIDKeyDriver {
     );
 
     return publicKey;
+  }
+
+  SecureRandom _initializeSecureRandom() {
+    final secureRandom = FortunaRandom();
+    final seedSource = Random.secure();
+    final seeds = <int>[];
+
+    range(32).forEach((_) => seeds.add(seedSource.nextInt(256)));
+    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
+    return secureRandom;
   }
 }
