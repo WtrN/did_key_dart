@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto_keys/crypto_keys.dart' as crypto_keys;
-import 'package:jose/jose.dart';
 import 'package:pointycastle/export.dart';
 
 import 'model/key_algorithm.dart';
@@ -50,13 +49,6 @@ class DIDGenerator {
 
     final ecPoint =
         keyAlgorithm.domainParameters.curve.decodePoint(publicKeyBytes);
-
-    final cryptoKeysPublicKey = crypto_keys.EcPublicKey(
-      xCoordinate: ecPoint!.x!.toBigInteger()!,
-      yCoordinate: ecPoint.y!.toBigInteger()!,
-      curve: keyAlgorithm.identifier,
-    );
-    final jwk = JsonWebKey.fromCryptoKeys(publicKey: cryptoKeysPublicKey).toJson();
 
     final publicKey = ECPublicKey(
       ecPoint,
