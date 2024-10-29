@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:crypto_keys/crypto_keys.dart';
 import 'package:pointycastle/export.dart';
-import 'package:quiver/iterables.dart';
 
 import '../utils/variant.dart';
 
@@ -34,7 +33,10 @@ sealed class KeyAlgorithm {
         return P521();
       default:
         throw UnsupportedError(
-            'Unsupported key type with multicodec code: 0x${multicodecCode.toRadixString(16)}');
+          // This error message is too long to fit in 80 characters.
+          // ignore: lines_longer_than_80_chars
+          'Unsupported key type with multicodec code: 0x${multicodecCode.toRadixString(16)}',
+        );
     }
   }
 

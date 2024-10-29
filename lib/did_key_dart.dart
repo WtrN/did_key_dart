@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library;
 
-export 'src/dart_ssi_base.dart';
+export 'src/did_key_dart.dart';
 
 // TODO: Export any libraries intended for clients of this package.

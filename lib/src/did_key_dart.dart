@@ -12,11 +12,13 @@ import 'utils/variant.dart';
 class DIDGenerator {
   const DIDGenerator();
 
-  String generateDID(KeyAlgorithm keyAlgorithm, String jwk) {
+  String generateDIDFromJWK({
+    required KeyAlgorithm keyAlgorithm,
+    required String jwk,
+  }) {
     final publicKey =
         crypto_keys.KeyPair.fromJwk(jsonDecode(jwk) as Map<String, dynamic>)
             .publicKey! as crypto_keys.EcPublicKey;
-
     // publicKeyとtargetCurveを用いて、ECpointを生成
     final ecPoint = keyAlgorithm.domainParameters.curve
         .createPoint(publicKey.xCoordinate, publicKey.yCoordinate);
@@ -28,6 +30,32 @@ class DIDGenerator {
         Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex));
 
     return 'did:key:$base58PublicKey';
+  }
+
+  (String did, ECPrivateKey privateKey) generateDID(
+      {required KeyAlgorithm keyAlgorithm}) {
+    final generator = ECKeyGenerator()
+      ..init(
+        ParametersWithRandom(
+          ECKeyGeneratorParameters(
+            keyAlgorithm.domainParameters,
+          ),
+          SecureRandom(),
+        ),
+      );
+
+    final keyPair = generator.generateKeyPair();
+
+    final publicKey = keyPair.publicKey as ECPublicKey;
+
+    final ecPoint = publicKey.Q!;
+
+    final publicKeyHex = ecPoint.getEncoded();
+
+    final base58PublicKey = base58Encode(
+        Uint8List.fromList(keyAlgorithm.hexadecimal + publicKeyHex));
+
+    return ('did:key:$base58PublicKey', keyPair.privateKey as ECPrivateKey);
   }
 
   ECPublicKey resolveDID(String did) {
