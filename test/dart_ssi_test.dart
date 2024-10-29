@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:crypto_keys/crypto_keys.dart';
-import 'package:dart_ssi/dart_ssi.dart';
-import 'package:dart_ssi/src/model/key_algorithm.dart';
+import 'package:did_key_dart/dart_ssi.dart';
+import 'package:did_key_dart/src/model/key_algorithm.dart';
 import 'package:jose/jose.dart';
 import 'package:test/test.dart';
 

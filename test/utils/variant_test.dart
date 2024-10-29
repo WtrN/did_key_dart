@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:dart_ssi/src/utils/variant.dart';
+import 'package:did_key_dart/src/utils/variant.dart';
 import 'package:test/test.dart';
 
 void main() {
