@@ -1,39 +1,48 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# did_key_dart
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Dart package for generating and resolving Decentralized Identifiers (DIDs) using various cryptographic algorithms.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Generate DIDs using P-256 and P-384, P-521 key algorithms.
+- Resolve DIDs to obtain public keys.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To use this package, add `did_key_dart` as a dependency in your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  did_key_dart: ^0.1.0
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+### Generate a DID
 
 ```dart
-const like = 'sample';
+import 'package:did_key_dart/did_key_dart.dart';
+
+void main() {
+  final driver = DIDKeyDriver();
+  final result = driver.generateDID(keyAlgorithm: P256());
+  print('DID: ${result.did}');
+  print('Private Key: ${result.privateKey}');
+}
+```
+
+### Resolve a DID
+
+```dart
+import 'package:did_key_dart/did_key_dart.dart';
+
+void main() {
+  final driver = DIDKeyDriver();
+  final publicKey = driver.getPublicKeyFromDID('did:key:z...');
+  print('Public Key: $publicKey');
+}
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+For more information, visit the documentation.  To contribute to this package, please submit a pull request or file an issue on GitHub. We welcome contributions and feedback from the commun
