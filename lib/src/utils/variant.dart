@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 /// A class to encode and decode varint.
 class Varint {
-
   /// Encodes the target integer to varint.
   Uint8List encode(int target) {
     var value = target;

@@ -4,7 +4,6 @@ import 'package:pointycastle/export.dart';
 
 /// Extension methods for [ECPublicKey].
 extension ECPublicKeyExtension on ECPublicKey {
-
   /// Converts the [ECPublicKey] to a JWK.
   Map<String, dynamic> toJwk() {
     final cryptoKeysPublicKey = crypto_keys.EcPublicKey(
