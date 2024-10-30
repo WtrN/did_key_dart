@@ -1,6 +1,6 @@
 name: did_key_dart
 description: A Dart package for generating and resolving Decentralized Identifiers (DIDs) using various cryptographic algorithms, including P-256 and Ed25519. This package provides functionality to create DIDs, resolve them to obtain public keys.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/WtrN/did_key_dart
 
 environment:
