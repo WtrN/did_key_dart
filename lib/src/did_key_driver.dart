@@ -6,7 +6,8 @@ import 'package:crypto_keys/crypto_keys.dart' as crypto_keys;
 import 'package:pointycastle/export.dart';
 import 'package:quiver/iterables.dart';
 
-import 'model/key_algorithm.dart';
+import '../did_key_dart.dart';
+import 'model/did.dart';
 import 'utils/base58.dart';
 import 'utils/variant.dart';
 
@@ -71,8 +72,10 @@ class DIDKeyDriver {
 
   /// Resolves a DID to an [ECPublicKey].
   ECPublicKey getPublicKeyFromDID(String did) {
+    final didKey = DID.from(did);
+
     // Extract the base58-encoded public key from the DID
-    final base58PublicKey = did.substring('did:key:z'.length);
+    final base58PublicKey = didKey.multibasePublicKey.substring(1);
 
     // Decode the base58-encoded public key
     final keyBytes = base58Decode(base58PublicKey);
@@ -106,5 +109,36 @@ class DIDKeyDriver {
     range(32).forEach((_) => seeds.add(seedSource.nextInt(256)));
     secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
     return secureRandom;
+  }
+
+  Map<String, dynamic> getDidDocumet(String did) {
+    final publicKey = getPublicKeyFromDID(did);
+    final base58PublicKey = did.substring('did:key:'.length);
+    final document = {
+      '@context': [
+        'https://www.w3.org/ns/did/v1',
+        'https://w3id.org/security/suites/jws-2020/v1',
+      ],
+      'id': did,
+      'publicKey': [
+        {
+          'id': '$did#$base58PublicKey',
+          'type': 'JwsVerificationKey2020',
+          'controller': did,
+          'verificationMethod': {
+            'id': '$did#base58PublicKey',
+            'type': 'JsonWebKey',
+            'publicKeyJwk': publicKey.toJwk(),
+          }
+        },
+      ],
+      'asserthionMethod': [
+        '$did#$base58PublicKey',
+      ],
+      'authentication': [
+        '$did#$base58PublicKey',
+      ],
+    };
+    return document;
   }
 }

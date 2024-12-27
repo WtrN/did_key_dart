@@ -52,4 +52,18 @@ void main() {
       expect(did.privateKey, isA<ECPrivateKey>());
     });
   });
+
+  group('Resolve DID', () {
+    test('The DID generated with the P-256 key can be resolved.', () {
+      const driver = DIDKeyDriver();
+      final jwk = JsonWebKey.generate('ES256');
+      final did = driver.generateDIDFromJWK(
+        keyAlgorithm: P256(),
+        jwk: jsonEncode(jwk.toJson()),
+      );
+
+      final resolved = driver.getPublicKeyFromDID(did);
+      expect(resolved, isA<ECPublicKey>());
+    });
+  });
 }
