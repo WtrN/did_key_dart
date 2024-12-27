@@ -111,6 +111,7 @@ class DIDKeyDriver {
     return secureRandom;
   }
 
+  /// Returns a DID document.
   Map<String, dynamic> getDidDocumet(String did) {
     final publicKey = getPublicKeyFromDID(did);
     final base58PublicKey = did.substring('did:key:'.length);

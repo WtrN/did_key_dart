@@ -1,3 +1,4 @@
+/// Decentralized Identifier (DID) model
 class DID {
   const DID._({
     required this.multibasePublicKey,
@@ -6,6 +7,7 @@ class DID {
     this.queryParameters = const {},
   });
 
+  /// Creates a [DID] from the given [did].
   factory DID.from(String did) {
     final identifier = did.split(':').last;
     final uri = Uri.parse(identifier);
@@ -17,11 +19,16 @@ class DID {
       queryParameters: uri.queryParameters,
     );
   }
+
+  /// The multibase public key.
   final String multibasePublicKey;
 
+  /// The did's fragment.
   final String? fragment;
 
+  /// The did's path.
   final List<String>? path;
 
+  /// The did's query parameters.
   final Map<String, String> queryParameters;
 }
